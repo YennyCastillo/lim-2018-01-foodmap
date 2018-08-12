@@ -1,10 +1,11 @@
-const mapa = document.getElementById("map")
-
+const mapa = document.getElementById("map");
+const places= document.getElementById("places");
+const modal = document.getElementById("modal")
 let map, infoWindow, service;
 
 function initMap() {
   let pos;
-  // let pyrmont;
+ 
 
   infoWindow = new google.maps.InfoWindow();
   console.log(infoWindow)
@@ -15,8 +16,7 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      // pyrmont = new google.maps.LatLng(pos);
-      // console.log(pyrmont)
+      
       map = new google.maps.Map(mapa, {
         center: pos,
         zoom: 15
@@ -58,15 +58,18 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 function callback(results, status) {
+  console.log(results)
   if (status === google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      createMarker(results[i]);
+    for (place of results ) {
+      createMarker(place);
+      paintData(place)
     }
   }
 }
 
 function createMarker(place) {
-  let placeLoc = place.geometry.location;
+  console.log(place)
+  // let placeLoc = place.geometry.location;
   let marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location
@@ -75,8 +78,62 @@ function createMarker(place) {
   google.maps.event.addListener(marker, 'click', function () {
     infoWindow.setContent(place.name);
     infoWindow.open(map, this);
+
   });
+}
+
+const paintData = (place) =>{
+  console.log(place)
+let photos =place.photos;
+if (place.hasOwnProperty('photos')) {
+  photo = photos[0].getUrl({
+    'maxWidth': 400,
+    'maxHeight': 400
+  });
+  } else {
+    photo = place.icon;
+}
+if (place.hasOwnProperty('rating')) {
+  rating = place.rating;
+} else {
+  rating = ' - ';
+}
+if (place.hasOwnProperty('vicinity')) {
+  direction = place.vicinity;
+} else {
+  direction = ' - ';
+}
+
+	places.innerHTML += `
+  <div><a class="modal" data-toggle="modal" data-target="#${place.id}"><img src="${photo}" alt="${place.name}"></a>
+  </div>
+          <p> ${place.name}</p>
+  
+       <div class="modal fade" id="${place.id}" tabindex="-1" role="dialog"  aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="${place.id}">${place.name}</h5>
+              </div>
+              <div class="modal-body">
+              <div>
+              <img src="${place.geometry.location}" alt="${place.name}">
+              </div>
+              </div>
+              <div class="modal-footer">
+                <p> ${place.rating}</p>
+                <p> ${place.vicinity}</p> 
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>   
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+  `;
+
 }
 
 
 
+  
