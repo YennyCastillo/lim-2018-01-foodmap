@@ -1,11 +1,32 @@
-#map {
-    height: 100%;
-  }
-  /* Optional: Makes the sample page fill the window. */
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
+* *{
+  font-family: 'Anton', sans-serif;
+   
+}
+body{
+  min-height: 100vh;
+}
   
+h1, h2 {
+  color:#300303;
+}
+ .img{
+  background:url("../imagenes/amigos-rest.jpg") no-repeat;
+  height: 300px;
+  background-size: cover;
+  background-attachment: fixed;
+   
+ } 
+ 
+.map {
+    height:250px;
+     
+  }
+  
+.splash{
+  min-height: 100vh; 
+  color:#300303;
+}
+.img-L{
+  height: 50%;
+  text-align: center;
+}

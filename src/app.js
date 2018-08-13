@@ -1,11 +1,11 @@
-const mapa = document.getElementById("map");
-const places= document.getElementById("places");
-const modal = document.getElementById("modal")
+const mapa = document.getElementById('map');
+const places = document.getElementById('places');
+
 let map, infoWindow, service;
 
 function initMap() {
   let pos;
- 
+
 
   infoWindow = new google.maps.InfoWindow();
   console.log(infoWindow)
@@ -16,7 +16,7 @@ function initMap() {
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-      
+
       map = new google.maps.Map(mapa, {
         center: pos,
         zoom: 15
@@ -60,7 +60,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 function callback(results, status) {
   console.log(results)
   if (status === google.maps.places.PlacesServiceStatus.OK) {
-    for (place of results ) {
+    for (place of results) {
       createMarker(place);
       paintData(place)
     }
@@ -82,58 +82,58 @@ function createMarker(place) {
   });
 }
 
-const paintData = (place) =>{
+const paintData = (place) => {
   console.log(place)
-let photos =place.photos;
-if (place.hasOwnProperty('photos')) {
-  photo = photos[0].getUrl({
-    'maxWidth': 400,
-    'maxHeight': 400
-  });
+  let photos = place.photos;
+  if (place.hasOwnProperty('photos')) {
+    photo = photos[0].getUrl({
+      'maxWidth': 400,
+      'maxHeight': 300
+    });
   } else {
     photo = place.icon;
-}
-if (place.hasOwnProperty('rating')) {
-  rating = place.rating;
-} else {
-  rating = ' - ';
-}
-if (place.hasOwnProperty('vicinity')) {
-  direction = place.vicinity;
-} else {
-  direction = ' - ';
-}
-
-	places.innerHTML += `
-  <div><a class="modal" data-toggle="modal" data-target="#${place.id}"><img src="${photo}" alt="${place.name}"></a>
-  </div>
-          <p> ${place.name}</p>
+  }
+  if (place.hasOwnProperty('rating')) {
+    rating = place.rating;
+  } else {
+    rating = ' - ';
+  }
+  if (place.hasOwnProperty('vicinity')) {
+    direction = place.vicinity;
+  } else {
+    direction = ' - ';
+  }
   
-       <div class="modal fade" id="${place.id}" tabindex="-1" role="dialog"  aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="${place.id}">${place.name}</h5>
-              </div>
-              <div class="modal-body">
-              <div>
-              <img src="${place.geometry.location}" alt="${place.name}">
-              </div>
-              </div>
-              <div class="modal-footer">
-                <p> ${place.rating}</p>
-                <p> ${place.vicinity}</p> 
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>   
-              </div>
+  places.innerHTML += `
+    <div class="m-2 shadow p-3 mb-5 bg-white rounded" style="width: 450px; height: 200px">
+      <a data-toggle="modal"  data-target="#${place.id}"><img class="card-img-top" style="width: 400px; height: 150px" src="${photo}" alt="${place.name}"></a>
+      <h5 class=""> ${place.name}</h5>
+    </div>
+  
+    <div class="modal fade" id="${place.id}" tabindex="-1" role="dialog"  aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="${place.id}">${place.name}</h5>
+          </div>
+          <div class="modal-body">
+            <div>
+              <img src="${place.plus_code.compound_code}" alt="mapaUbicacion">
             </div>
           </div>
+          <div class="">
+            <p> Clasificacion: ${place.rating}</p>
+            <p> Direccion: ${place.vicinity}</p> 
+            <button type="button" class="btn btn-warning ml-auto" data-dismiss="modal">Close</button>   
+          </div>
         </div>
+      </div>
+    </div>
 
 
   `;
-
+  
 }
 
 
 
-  
