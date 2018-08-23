@@ -103,14 +103,14 @@ const paintData = (place) => {
   } else {
     direction = ' - ';
   }
-  
+  console.log(place)
   places.innerHTML += `
     <div class="m-2 shadow p-3 mb-5 bg-white rounded" style="width: 450px; height: 200px">
-      <a data-toggle="modal"  data-target="#${place.id}"><img class="card-img-top" style="width: 400px; height: 150px" src="${photo}" alt="${place.name}"></a>
+      <a data-toggle="modal"  data-target="#${ place.place_id}"><img class="card-img-top" style="width: 400px; height: 150px" src="${photo}" alt="${place.id}"></a>
       <h5 class=""> ${place.name}</h5>
     </div>
   
-    <div class="modal fade" id="${place.id}" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal fade" id="${place.place_id}" tabindex="-1" role="dialog"  aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
